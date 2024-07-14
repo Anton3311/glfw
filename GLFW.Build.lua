@@ -1,9 +1,17 @@
 project "GLFW"
-	kind "StaticLib"
 	language "C"
 
-	targetdir ("bin/" .. OUTPUT_DIRECTORY .. "/%{prj.name}")
-	objdir ("bin-int/" .. OUTPUT_DIRECTORY .. "/%{prj.name}")
+	filter "configurations:not Dist"
+		kind "SharedLib"
+		defines { "_GLFW_BUILD_DLL" }
+
+	filter "Dist"
+		kind "StaticLib"
+
+	filter {}
+
+	targetdir ("%{wks.location}/bin/" .. OUTPUT_DIRECTORY)
+	objdir ("%{wks.location}/bin-int/" .. OUTPUT_DIRECTORY .. "/%{prj.name}")
 
 	files
 	{
@@ -75,7 +83,7 @@ project "GLFW"
 		}
 
 		defines 
-		{ 
+		{
 			"_GLFW_WIN32",
 			"_CRT_SECURE_NO_WARNINGS"
 		}
